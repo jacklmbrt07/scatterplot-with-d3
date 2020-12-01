@@ -11,6 +11,7 @@ let height = 600;
 let padding = 40;
 
 let svg = d3.select("svg");
+let tooltip = d3.select("#tooltip");
 
 let drawCanvas = () => {
   svg.attr("width", width);
@@ -23,10 +24,10 @@ let generateScales = () => {
     .domain([
       d3.min(values, (item) => {
         return item.Year;
-      }),
+      }) - 1,
       d3.max(values, (item) => {
         return item.Year;
-      }),
+      }) + 1,
     ])
     .range([padding, width - padding]);
 
@@ -62,6 +63,28 @@ let drawPoints = () => {
     })
     .attr("cy", (item) => {
       return yScale(new Date(item.Seconds * 1000));
+    })
+    .attr("fill", (item) => {
+      return item.Doping != "" ? "orange" : "blue";
+    })
+    .on("mouseover", (d) => {
+      tooltip.transition().style("visibility", "visible");
+
+      let item = d.target.__data__;
+      if (item.Doping != "") {
+        tooltip.text(
+          `${item.Year} - ${item.Name} - ${item.Time} - ${item.Doping}`
+        );
+      } else {
+        tooltip.text(
+          `${item.Year} - ${item.Name} - ${item.Time} - No Allegations`
+        );
+      }
+
+      tooltip.attr("data-year", item.Year);
+    })
+    .on("mouseout", () => {
+      tooltip.transition().style("visibility", "hidden");
     });
 };
 

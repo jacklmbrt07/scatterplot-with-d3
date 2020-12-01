@@ -3,12 +3,20 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
 
 svg {
-  background-color: antiquewhite;
+  background-color: white;
+  padding: 25px;
 }
 
-#x-axis {
-  color: black;
+#tooltip {
+  visibility: hidden;
+  width: auto;
+  height: auto;
+}
+
+.dot:hover {
+  opacity: 0.3;
 }
